@@ -10,30 +10,24 @@ interface TileListProps {
 }
 
 const videos = [
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo,
-  sampleVideo
+  { ...sampleVideo, bvid: '1' },
+  { ...sampleVideo, bvid: '2' },
+  { ...sampleVideo, bvid: '3' },
+  { ...sampleVideo, bvid: '4' },
+  { ...sampleVideo, bvid: '5' },
+  { ...sampleVideo, bvid: '6' },
+  { ...sampleVideo, bvid: '7' },
+  { ...sampleVideo, bvid: '8' },
+  { ...sampleVideo, bvid: '9' },
+  { ...sampleVideo, bvid: '10' },
+  { ...sampleVideo, bvid: '11' }
 ];
 
 export function TileListSample() {
   return (
     <TileList title="推荐视频">
-      {videos.map((video, index) => (
-        <VideoTile key={index} video={video} />
+      {videos.map(video => (
+        <VideoTile key={video.bvid} video={video} />
       ))}
     </TileList>
   );

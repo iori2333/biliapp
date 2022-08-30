@@ -9,6 +9,7 @@ body {
 
 .scrollable-container {
   overflow: overlay;
+  margin-right: 4px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -20,10 +21,10 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #fafafa;
+    background: #e5e5e5;
     border-radius: 4px;
     &:hover {
-      background: #fafafa;
+      background: #d6d6d6;
     }
   }
 }
