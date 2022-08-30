@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import account from './slices/account';
 import settings from './slices/settings';
+import playlist from './slices/playlist';
 
 const store = configureStore({
   reducer: {
     account,
-    settings
+    settings,
+    playlist
   }
 });
 

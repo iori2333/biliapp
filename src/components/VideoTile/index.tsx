@@ -1,17 +1,20 @@
 import React, { memo, useCallback } from 'react';
 import { VStack, Link, HStack, Box } from '@chakra-ui/react';
-
-// import testData from './data.json';
-import VideoImage from './VideoImage';
 import { MdAccountCircle } from 'react-icons/md';
+import { getAll } from '@tauri-apps/api/window';
 import dayjs from 'dayjs';
+
+import VideoImage from './VideoImage';
 import { VideoInfo } from '@/api/models/video';
+import useVideoWindow from '@/hooks/useVideoWindow';
 
 interface VideoTileProps {
   video: VideoInfo;
 }
 
 function VideoTile({ video }: VideoTileProps) {
+  const newWindow = useVideoWindow();
+
   const timeString = useCallback((time: number) => {
     const timeObj = dayjs.unix(time);
     if (timeObj.diff(dayjs(), 'year') > 0) {
@@ -20,9 +23,30 @@ function VideoTile({ video }: VideoTileProps) {
     return dayjs.unix(time).format('M-DD');
   }, []);
 
+  const onClickVideo = useCallback(
+    (bvid: string) => {
+      const window = getAll().find(win => win.label == `video-window-${bvid}`);
+      if (window) {
+        window.setFocus().catch(err => console.log(err));
+      } else {
+        newWindow(bvid);
+      }
+    },
+    [newWindow]
+  );
+
+  const onClickUser = useCallback(() => {}, []);
+
   return (
     <VStack height="200px" userSelect="none" align="flex-start">
-      <VideoImage video={video} />
+      <VideoImage
+        pic={video.pic}
+        title={video.title}
+        view={video.stat.view}
+        danmaku={video.stat.danmaku}
+        duration={video.duration}
+        onClick={() => onClickVideo(video.bvid)}
+      />
       <Box>
         <Link
           transition="all 0.2s ease-in-out"
@@ -31,6 +55,7 @@ function VideoTile({ video }: VideoTileProps) {
             color: 'bilibili'
           }}
           fontWeight="bold"
+          onClick={() => onClickVideo(video.bvid)}
         >
           {video.title}
         </Link>
@@ -45,6 +70,7 @@ function VideoTile({ video }: VideoTileProps) {
             textDecoration: 'none',
             color: 'bilibili'
           }}
+          onClick={onClickUser}
         >
           <MdAccountCircle />
           <Box>

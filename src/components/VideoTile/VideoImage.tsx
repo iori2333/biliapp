@@ -1,12 +1,20 @@
 import React, { memo, useCallback } from 'react';
 import { Box, HStack, Image, Text } from '@chakra-ui/react';
 
-import { VideoInfo } from '@/api/models/video';
 import { MdOutlineComment, MdPlayArrow } from 'react-icons/md';
 
 interface VideoLabelProps {
   icon?: React.ReactNode;
   label: string;
+}
+
+interface VideoImageProps {
+  pic: string;
+  title: string;
+  view: number;
+  danmaku: number;
+  duration: number;
+  onClick?: () => void;
 }
 
 function VideoLabel({ icon, label }: VideoLabelProps) {
@@ -18,7 +26,14 @@ function VideoLabel({ icon, label }: VideoLabelProps) {
   );
 }
 
-function VideoImage({ video }: { video: VideoInfo }) {
+function VideoImage({
+  pic,
+  title,
+  view,
+  danmaku,
+  duration,
+  onClick
+}: VideoImageProps) {
   const viewString = useCallback((count: number) => {
     if (count > 10000) {
       return `${(count / 10000).toFixed(1)}万`;
@@ -48,8 +63,9 @@ function VideoImage({ video }: { video: VideoInfo }) {
       borderRadius="2xl"
       transition="all 0.2s ease-in-out"
       overflow="hidden"
+      onClick={onClick}
     >
-      <Image src={video.pic} alt={video.title} cursor="pointer" />
+      <Image src={pic} alt={title} cursor="pointer" />
       <Box
         bg="linear-gradient(to bottom, #00000000, #000000)"
         pos="absolute"
@@ -61,16 +77,13 @@ function VideoImage({ video }: { video: VideoInfo }) {
       >
         <HStack justify="space-between">
           <HStack>
-            <VideoLabel
-              icon={<MdPlayArrow />}
-              label={viewString(video.stat.view)}
-            />
+            <VideoLabel icon={<MdPlayArrow />} label={viewString(view)} />
             <VideoLabel
               icon={<MdOutlineComment />}
-              label={viewString(video.stat.danmaku)}
+              label={viewString(danmaku)}
             />
           </HStack>
-          <VideoLabel label={timeString(video.duration)} />
+          <VideoLabel label={timeString(duration)} />
         </HStack>
       </Box>
     </Box>

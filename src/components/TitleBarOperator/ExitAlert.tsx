@@ -8,7 +8,7 @@ import {
   AlertDialogOverlay,
   Button
 } from '@chakra-ui/react';
-import { appWindow } from '@tauri-apps/api/window';
+import { appWindow, getAll } from '@tauri-apps/api/window';
 import React, { useContext } from 'react';
 import { TauriContext } from '../TauriProvider';
 
@@ -39,7 +39,11 @@ function ExitAlert({ isOpen, close, closeRef }: ExitAlertProps) {
               colorScheme="red"
               onClick={() => {
                 onClose();
-                appWindow.close();
+                if (appWindow.label === 'main') {
+                  getAll().forEach(win => win.close());
+                } else {
+                  appWindow.close();
+                }
               }}
               ml={3}
             >

@@ -15,44 +15,43 @@ pub fn new() -> SystemTray {
   SystemTray::new().with_menu(menu)
 }
 
-pub fn config(app: &AppHandle, event: SystemTrayEvent) {
-  let show_window = |app: &AppHandle| {
-    let window = app.get_window("main").unwrap();
+fn show_window(app: &AppHandle) {
+  app.windows().iter().for_each(|(_name, window)| {
     if !window.is_visible().unwrap() {
       window.show().unwrap();
     }
-    window.set_focus().unwrap();
-  };
+  });
+  let window = app.get_window("main").unwrap();
+  window.set_focus().unwrap();
+}
 
+fn hide_window(app: &AppHandle) {
+  app.windows().iter().for_each(|(_name, window)| {
+    if window.is_visible().unwrap() {
+      window.hide().unwrap();
+    }
+  });
+}
+
+pub fn config(app: &AppHandle, event: SystemTrayEvent) {
   match event {
     SystemTrayEvent::LeftClick {
       position: _,
       size: _,
       ..
-    } => {
-      let window = app.get_window("main").unwrap();
-      if window.is_visible().unwrap() {
-        window.hide()
-      } else {
-        window.show()
-      }
-      .unwrap();
-    }
+    } => show_window(app),
 
     SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
       "quit" => {
         show_window(app);
         app.emit_to("main", "tray-quit", ()).unwrap();
       }
-      "hide" => {
-        let window = app.get_window("main").unwrap();
-        window.hide().unwrap();
-      }
+      "hide" => hide_window(app),
       "settings" => {
         show_window(app);
         app.emit_to("main", "tray-settings", ()).unwrap();
       }
-      _ => {}
+      _ => panic!("Unknown menu item: {}", id),
     },
     _ => {}
   }

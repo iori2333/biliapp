@@ -2,7 +2,7 @@ import React from 'react';
 import { HStack } from '@chakra-ui/react';
 
 import PageBase from '@/pages/PageBase';
-import NavigationButton from '@/components/Header/NavigationButton';
+import NavigationButton from '@/components/MainHeader/NavigationButton';
 
 function HomePage() {
   return (

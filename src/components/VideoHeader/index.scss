@@ -1,0 +1,12 @@
+.pin-button {
+  svg {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &.pinned {
+    color: #fb7299;
+    svg {
+      transform: rotate(45deg);
+    }
+  }
+}

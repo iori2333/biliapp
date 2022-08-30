@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ViewBase from '@/pages/ViewBase';
 import PageBase from '@/pages/PageBase';
-import ViewBase from './ViewBase';
 import { TileListSample } from '@/components/TileList';
 
 function MePage() {

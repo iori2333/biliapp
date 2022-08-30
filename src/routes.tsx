@@ -5,6 +5,7 @@ import NewsPage from '@/pages/NewsPage/NewsPage';
 import MePage from '@/pages/MePage';
 import SettingsPage from '@/pages/SettingsPage';
 import ViewBase from './pages/ViewBase';
+import VideoPage from './pages/VideoPage';
 
 const routes: RouteObject[] = [
   {
@@ -58,6 +59,10 @@ const routes: RouteObject[] = [
   {
     path: '/settings',
     element: <SettingsPage />
+  },
+  {
+    path: '/video/:bvid',
+    element: <VideoPage />
   }
 ];
 

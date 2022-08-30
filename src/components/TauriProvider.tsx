@@ -1,7 +1,8 @@
 import { listen } from '@tauri-apps/api/event';
-import React, { createContext, useCallback, useEffect } from 'react';
+import React, { createContext, useCallback } from 'react';
 import pubsub from 'pubsub-js';
 import { useNavigate } from 'react-router-dom';
+import useEvent from '@/hooks/useEvent';
 
 export const TauriContext = createContext<{
   onClose: () => void;
@@ -17,14 +18,8 @@ const listeners = await Promise.all([
 function TauriProvider({ children }: { children: React.ReactNode }) {
   const onClose = useCallback(() => listeners.forEach(func => func()), []);
   const navigate = useNavigate();
-  useEffect(() => {
-    const id = pubsub.subscribe('web.tray-settings', () =>
-      navigate('/settings')
-    );
-    return () => {
-      pubsub.unsubscribe(id);
-    };
-  }, [navigate]);
+
+  useEvent('tray-settings', () => navigate('/settings'), [navigate]);
 
   return (
     <TauriContext.Provider value={{ onClose }}>

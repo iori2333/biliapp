@@ -47,7 +47,7 @@ function TileList({ title, children }: TileListProps) {
           {title}
         </Heading>
       )}
-      <SimpleGrid columns={4} spacing="20px">
+      <SimpleGrid minChildWidth="240px" spacing="20px">
         {children}
       </SimpleGrid>
     </VStack>

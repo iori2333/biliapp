@@ -1,8 +1,9 @@
 import React from 'react';
 import { HStack, Heading, Box } from '@chakra-ui/react';
-import SearchBox from './SearchBox';
-import TitleBarOperator from './TitleBarOperator';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import SearchBox from './SearchBox';
+import { TitleBarOperatorWithAlert } from '@/components/TitleBarOperator';
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -13,9 +14,7 @@ function Header({ children: navigation }: HeaderProps) {
     <HStack
       as="header"
       data-tauri-drag-region
-      position="sticky"
       height="75px"
-      align="center"
       zIndex="100"
       p="15px"
     >
@@ -29,7 +28,7 @@ function Header({ children: navigation }: HeaderProps) {
       >
         BiliApp
       </Heading>
-      <HStack data-tauri-drag-region justify={'space-between'} flex="1">
+      <HStack data-tauri-drag-region justify="space-between" flex="1">
         <AnimatePresence>
           <Box
             as={motion.div}
@@ -40,10 +39,9 @@ function Header({ children: navigation }: HeaderProps) {
             {navigation}
           </Box>
         </AnimatePresence>
-
         <SearchBox />
       </HStack>
-      <TitleBarOperator />
+      <TitleBarOperatorWithAlert />
     </HStack>
   );
 }

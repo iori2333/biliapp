@@ -14,8 +14,14 @@ fn main() {
 
   tauri::Builder::default()
     .setup(|app| {
-      let window = app.get_window("main").unwrap();
+      let handle = app.handle();
+      let window = handle.get_window("main").unwrap();
       set_shadow(&window, true).expect("Failed to set shadow");
+
+      window.listen("web/created-video", move |event| {
+        let window = handle.get_window(event.payload().unwrap()).unwrap();
+        set_shadow(&window, true).expect("Failed to set shadow");
+      });
 
       Ok(())
     })
