@@ -1,11 +1,11 @@
 import React from 'react';
 import { RouteObject, Navigate } from 'react-router-dom';
+
 import HomePage from '@/pages/HomePage/HomePage';
 import NewsPage from '@/pages/NewsPage/NewsPage';
 import MePage from '@/pages/MePage';
 import SettingsPage from '@/pages/SettingsPage';
-import ViewBase from './pages/ViewBase';
-import VideoPage from './pages/VideoPage';
+import VideoPage from '@/pages/VideoPage';
 
 const routes: RouteObject[] = [
   {
@@ -18,23 +18,23 @@ const routes: RouteObject[] = [
     children: [
       {
         path: 'recommend',
-        element: <ViewBase>Recommends</ViewBase>
+        element: 'Recommend'
       },
       {
         path: 'live',
-        element: <ViewBase>Live</ViewBase>
+        element: 'Live'
       },
       {
         path: 'hot',
-        element: <ViewBase>Hot</ViewBase>
+        element: 'Hot'
       },
       {
         path: 'bangumi',
-        element: <ViewBase>Bangumi</ViewBase>
+        element: 'Bangumi'
       },
       {
         path: 'movie',
-        element: <ViewBase>Movie</ViewBase>
+        element: 'Movie'
       }
     ]
   },
@@ -44,11 +44,11 @@ const routes: RouteObject[] = [
     children: [
       {
         path: 'all',
-        element: <ViewBase>All</ViewBase>
+        element: 'All'
       },
       {
         path: 'video',
-        element: <ViewBase>Video</ViewBase>
+        element: 'Video'
       }
     ]
   },
