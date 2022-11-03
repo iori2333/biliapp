@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import {
   MdClose,
   MdMinimize,
@@ -6,9 +12,12 @@ import {
   MdFullscreen
 } from 'react-icons/md';
 import { ButtonGroup, IconButton, useDisclosure } from '@chakra-ui/react';
-import { appWindow } from '@tauri-apps/api/window';
+import { appWindow, getAll } from '@tauri-apps/api/window';
 
-import useEvent from '@/hooks/useEvent';
+import useSubscription from '@/hooks/useSubscription';
+import useOptions from '@/hooks/useOptions';
+import { TauriContext } from '@/components/TauriProvider';
+
 import ExitAlert from './ExitAlert';
 
 function TitleBarOperator({ onCloseClick }: { onCloseClick?: () => void }) {
@@ -68,13 +77,33 @@ function TitleBarOperator({ onCloseClick }: { onCloseClick?: () => void }) {
 export function TitleBarOperatorWithAlert() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
+  const [state] = useOptions();
+  const { onClose: onTauriClose } = useContext(TauriContext);
 
-  useEvent('tray-quit', () => onOpen());
+  useSubscription('tray-quit', () => onOpen());
+
+  const onCloseClick = useCallback(() => {
+    if (appWindow.label === 'main') {
+      getAll().forEach(win => win.close());
+      onTauriClose();
+    } else {
+      appWindow.close();
+    }
+  }, [onTauriClose]);
 
   return (
     <>
-      <TitleBarOperator onCloseClick={onOpen} />
-      <ExitAlert isOpen={isOpen} close={onClose} closeRef={cancelRef} />
+      <TitleBarOperator
+        onCloseClick={() => (state.exitDialog ? onOpen() : onCloseClick())}
+      />
+      {state.exitDialog && (
+        <ExitAlert
+          isOpen={isOpen}
+          closeAlert={onClose}
+          onClose={onCloseClick}
+          closeRef={cancelRef}
+        />
+      )}
     </>
   );
 }

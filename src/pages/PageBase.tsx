@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Divider } from '@chakra-ui/react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from '@/components/MainHeader';
@@ -18,6 +18,7 @@ function PageBase({ content, children }: PageBaseProps) {
   return (
     <>
       <Header>{children}</Header>
+      <Divider />
       <Box
         ref={ref}
         className="scrollable-container"

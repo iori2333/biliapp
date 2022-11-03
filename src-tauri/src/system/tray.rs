@@ -53,6 +53,7 @@ pub fn config(app: &AppHandle, event: SystemTrayEvent) {
       }
       _ => panic!("Unknown menu item: {}", id),
     },
+
     _ => {}
   }
 }

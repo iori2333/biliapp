@@ -3,12 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface SettingState {
   downloadPath: string;
   autoPlay: boolean;
-  font?: string;
+  exitDialog: boolean;
 }
 
 const initialState: SettingState = {
   downloadPath: '',
-  autoPlay: false
+  autoPlay: false,
+  exitDialog: true
 };
 
 const settingSlice = createSlice({
@@ -16,12 +17,16 @@ const settingSlice = createSlice({
   initialState,
   reducers: {
     loadState(state) {
+      const stored = localStorage.getItem('settings');
+      if (stored != null) {
+        state = JSON.parse(stored);
+      }
       state.downloadPath = '';
       state.autoPlay = false;
+      state.exitDialog = true;
     },
-    setState(state, action: PayloadAction<SettingState>) {
-      state.downloadPath = action.payload.downloadPath;
-      state.autoPlay = action.payload.autoPlay;
+    setExitDialog(state, action: PayloadAction<boolean>) {
+      state.exitDialog = action.payload;
     }
   }
 });

@@ -1,7 +1,7 @@
 import pubsub from 'pubsub-js';
 import React, { useEffect } from 'react';
 
-function useEvent<T>(
+function useSubscription<T>(
   event: string,
   callback: (message: string, data?: T) => void,
   deps?: React.DependencyList
@@ -15,4 +15,4 @@ function useEvent<T>(
   }, deps);
 }
 
-export default useEvent;
+export default useSubscription;
